@@ -5,8 +5,7 @@ import { motion } from "framer-motion";
 
 import { siteConfig } from "@/lib/site-config";
 
-const aboutImage =
-  "https://picsum.photos/seed/about-community-rehearsal/900/700";
+const aboutImage = "/scrip3.jpg";
 
 export function AboutSection() {
   return (
@@ -30,7 +29,7 @@ export function AboutSection() {
                 alt=""
                 fill
                 sizes="(min-width: 1024px) 42vw, 100vw"
-                className="object-cover"
+                className="object-cover grayscale contrast-110"
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-primary/15 via-transparent to-transparent" />
             </div>

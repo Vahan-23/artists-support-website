@@ -7,7 +7,7 @@ import { siteConfig } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: "Участники",
   description:
-    "Молодые исполнители программы «Первый свет» — музыканты, вокалисты и актёры на пути к первой публичной сцене.",
+    "Молодые исполнители программы «Открытая сцена» — музыканты, вокалисты и актёры на пути к первой публичной сцене.",
   openGraph: {
     title: `Участники · ${siteConfig.name}`,
     description:

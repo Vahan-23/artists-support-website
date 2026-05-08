@@ -30,7 +30,7 @@ export const participants: Participant[] = [
   {
     id: "p4",
     name: "Лиза О.",
-    bio: "Скрипка и петля; участвует в серии камерных вечеров «Первый свет».",
+    bio: "Скрипка и петля; участвует в серии камерных вечеров «Открытая сцена».",
     imageSrc: "https://picsum.photos/seed/part-liza/400/400",
   },
   {

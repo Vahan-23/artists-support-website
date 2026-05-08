@@ -9,9 +9,6 @@ import { buttonVariants } from "@/components/ui/button";
 import { siteConfig } from "@/lib/site-config";
 import { cn } from "@/lib/utils";
 
-const heroImage =
-  "https://picsum.photos/seed/first-light-stage/960/1200";
-
 const fadeUp = {
   initial: { opacity: 0, y: 20 },
   animate: { opacity: 1, y: 0 },
@@ -119,23 +116,23 @@ export function HeroSection() {
               className="mt-8 flex flex-col gap-3 sm:mt-10 sm:flex-row sm:flex-wrap sm:items-center"
             >
               <Link
-                href="/#kontakty"
+                href="/#kak-eto-rabotaet"
                 className={cn(
                   buttonVariants({ size: "lg" }),
                   "group inline-flex h-11 w-full items-center justify-center gap-2 rounded-xl px-6 text-[0.9375rem] shadow-lg shadow-primary/20 sm:h-12 sm:w-auto sm:rounded-2xl sm:px-8",
                 )}
               >
-                Хочу в программу
+                Как это работает
                 <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
               </Link>
               <Link
-                href="/#kak-eto-rabotaet"
+                href="/#kontakty"
                 className={cn(
                   buttonVariants({ variant: "outline", size: "lg" }),
                   "inline-flex h-11 w-full items-center justify-center rounded-xl border-border/90 bg-card/90 px-6 text-[0.9375rem] sm:h-12 sm:w-auto sm:rounded-2xl sm:px-7",
                 )}
               >
-                Как это работает
+                Оставить заявку
               </Link>
               <Link
                 href="/ekspertnyy-sovet"
@@ -185,23 +182,23 @@ export function HeroSection() {
             }}
             className="relative z-[1] flex min-h-0 w-full flex-1 flex-col lg:mb-8"
           >
-            <div className="relative aspect-[4/5] w-full max-w-md shrink-0 overflow-hidden rounded-2xl shadow-[0_28px_56px_-20px_oklch(0.15_0.06_290/0.55)] ring-1 ring-white/10 sm:mx-auto sm:max-w-lg sm:rounded-3xl lg:mx-0 lg:aspect-auto lg:h-full lg:min-h-0 lg:max-w-none lg:flex-1 lg:rounded-none lg:rounded-bl-[2rem] xl:rounded-bl-[2.5rem]">
+            <div className="relative aspect-[4/5] w-full max-w-md shrink-0 overflow-hidden rounded-2xl shadow-[0_28px_56px_-20px_oklch(0.02_0_0/0.75)] ring-1 ring-white/10 sm:mx-auto sm:max-w-lg sm:rounded-3xl lg:mx-0 lg:aspect-auto lg:h-full lg:min-h-0 lg:max-w-none lg:flex-1 lg:rounded-none lg:rounded-bl-[2rem] xl:rounded-bl-[2.5rem]">
               <Image
-                src={heroImage}
-                alt=""
+                src="/scrip2.jpg"
+                alt="Фрагмент скрипки"
                 fill
                 priority
                 sizes="(min-width: 1024px) 38vw, (min-width: 640px) 80vw, 100vw"
-                className="object-cover"
+                className="object-cover contrast-110 brightness-90"
               />
-              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[oklch(0.15_0.05_290)]/88 via-[oklch(0.22_0.06_290)]/20 to-transparent" />
+              <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
             </div>
 
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.45, duration: 0.45 }}
-              className="mx-auto mt-4 w-full max-w-md rounded-xl border border-white/12 bg-[oklch(0.22_0.04_290)]/92 p-3.5 shadow-lg backdrop-blur-md sm:max-w-lg sm:p-4 lg:absolute lg:bottom-5 lg:left-5 lg:right-5 lg:mx-0 lg:mt-0 lg:max-w-none"
+              className="mx-auto mt-4 w-full max-w-md rounded-xl border border-white/12 bg-black/75 p-3.5 shadow-lg backdrop-blur-md sm:max-w-lg sm:p-4 lg:absolute lg:bottom-5 lg:left-5 lg:right-5 lg:mx-0 lg:mt-0 lg:max-w-none"
             >
               <p className="font-heading text-sm font-semibold text-white sm:text-base">
                 Без жёсткого отбора

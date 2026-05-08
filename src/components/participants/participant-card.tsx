@@ -37,7 +37,7 @@ export function ParticipantCard({ participant, index }: ParticipantCardProps) {
             alt={`${participant.name}, участник`}
             fill
             sizes="(min-width: 1024px) 320px, (min-width: 640px) 40vw, 100vw"
-            className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+            className="object-cover grayscale transition-transform duration-500 group-hover:scale-[1.03]"
           />
         </div>
         <CardHeader className="pb-2 pt-5">
