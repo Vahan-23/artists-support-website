@@ -27,7 +27,13 @@ export default function ExpertCouncilPage() {
           description={`${expertCouncil.intro} ${expertCouncil.listIntro} ${expertCouncil.bullets.join("; ")}.`}
         />
 
-        <div className="mt-10 grid gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
+        <div
+          className={
+            experts.length === 1
+              ? "mx-auto mt-10 max-w-md sm:mt-12"
+              : "mt-10 grid items-stretch gap-5 sm:mt-12 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
+          }
+        >
           {experts.map((expert, index) => (
             <ExpertCard key={expert.id} expert={expert} index={index} />
           ))}
