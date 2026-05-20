@@ -173,6 +173,17 @@
     @apply mb-10 sm:mb-12;
   }
 
+  /** Отступ якорей под двухрядный header */
+  .scroll-mt-header {
+    scroll-margin-top: 7.5rem;
+  }
+
+  @media (min-width: 768px) {
+    .scroll-mt-header {
+      scroll-margin-top: 8.75rem;
+    }
+  }
+
   .font-heading {
     font-family: var(--font-heading), ui-serif, Georgia, serif;
   }

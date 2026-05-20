@@ -1,35 +1,46 @@
 "use client";
 
+import { AnchorLink } from "@/components/layout/anchor-link";
 import { motion } from "framer-motion";
+import {
+  GraduationCap,
+  HeartHandshake,
+  Mic2,
+  Users,
+} from "lucide-react";
 
-import { howItWorksSteps } from "@/data/home-sections";
+import { landingContent } from "@/data/landing-content";
+
+const stepIcons = [HeartHandshake, Users, Mic2, GraduationCap] as const;
 
 export function HowItWorksSection() {
+  const { howItWorks } = landingContent;
+
   return (
     <section
       id="kak-eto-rabotaet"
-      className="scroll-mt-20 border-b border-border/40"
+      className="scroll-mt-header border-b border-border/40"
       aria-labelledby="how-title"
     >
       <div className="section-shell section-y">
         <div className="section-head section-head-gap text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-            По шагам
+            {howItWorks.eyebrow}
           </p>
           <h2
             id="how-title"
             className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl"
           >
-            Как это работает
+            {howItWorks.title}
           </h2>
           <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg">
-            От заявки до выступления — без скрытых этапов.
+            {howItWorks.lead}
           </p>
         </div>
 
         <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 xl:grid-cols-4">
-          {howItWorksSteps.map((item, index) => {
-            const Icon = item.icon;
+          {howItWorks.steps.map((item, index) => {
+            const Icon = stepIcons[index] ?? HeartHandshake;
             return (
               <motion.article
                 key={item.step}
@@ -63,14 +74,31 @@ export function HowItWorksSection() {
           })}
         </div>
 
-        <motion.p
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mx-auto mt-8 max-w-lg text-center text-sm leading-relaxed text-muted-foreground sm:mt-10"
+          className="mx-auto mt-8 max-w-xl space-y-3 text-center sm:mt-10"
         >
-          Сроки подстраиваем под вас.
-        </motion.p>
+          <p className="text-sm leading-relaxed text-muted-foreground">
+            {howItWorks.closing}
+          </p>
+          <p className="text-sm">
+            <AnchorLink
+              href="/#dlya-roditeley"
+              className="font-semibold text-primary underline-offset-4 hover:underline"
+            >
+              Информация для родителей
+            </AnchorLink>
+            {" · "}
+            <AnchorLink
+              href="/#kontakty"
+              className="font-semibold text-primary underline-offset-4 hover:underline"
+            >
+              Оставить заявку
+            </AnchorLink>
+          </p>
+        </motion.div>
       </div>
     </section>
   );

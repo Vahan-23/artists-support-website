@@ -4,13 +4,14 @@ import { motion } from "framer-motion";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import { ContactForm } from "@/components/home/contact-form";
+import { landingContent } from "@/data/landing-content";
 import { siteConfig } from "@/lib/site-config";
 
 export function ContactSection() {
   return (
     <section
       id="kontakty"
-      className="scroll-mt-20"
+      className="scroll-mt-header"
       aria-labelledby="contact-title"
     >
       <div className="section-shell section-y">
@@ -31,7 +32,7 @@ export function ContactSection() {
             Напишите нам
           </h2>
           <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg">
-            Коротко о себе и формате. Ответим в течение нескольких рабочих дней.
+            {landingContent.contact.lead}
           </p>
         </motion.div>
 

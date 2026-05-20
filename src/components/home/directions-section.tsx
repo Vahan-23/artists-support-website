@@ -1,45 +1,45 @@
 "use client";
 
-import { AnchorLink } from "@/components/layout/anchor-link";
 import { motion } from "framer-motion";
-import { Music, Sparkles, UsersRound } from "lucide-react";
+import { Award, GraduationCap, Mic2, type LucideIcon } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { landingContent } from "@/data/landing-content";
 
-const audienceIcons = [Music, UsersRound, Sparkles] as const;
+const directionIcons: Record<string, LucideIcon> = {
+  grants: Award,
+  education: GraduationCap,
+  festivals: Mic2,
+};
 
-export function AudienceSection() {
-  const { audience } = landingContent;
+export function DirectionsSection() {
+  const { directions } = landingContent;
 
   return (
     <section
-      id="komu-my-pomogaem"
+      id="napravleniya"
       className="scroll-mt-header border-b border-border/40 bg-muted/25"
-      aria-labelledby="audience-title"
+      aria-labelledby="directions-title"
     >
       <div className="section-shell section-y">
         <div className="section-head section-head-gap text-center">
           <p className="text-xs font-semibold uppercase tracking-[0.18em] text-primary">
-            {audience.eyebrow}
+            {directions.eyebrow}
           </p>
           <h2
-            id="audience-title"
+            id="directions-title"
             className="mt-2 font-heading text-2xl font-semibold tracking-tight text-foreground sm:text-3xl md:text-4xl"
           >
-            {audience.title}
+            {directions.title}
           </h2>
-          <p className="mt-3 text-base leading-relaxed text-muted-foreground sm:mt-4 sm:text-lg">
-            {audience.lead}
-          </p>
         </div>
 
-        <div className="grid gap-5 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3">
-          {audience.cards.map((card, index) => {
-            const Icon = audienceIcons[index] ?? Sparkles;
+        <div className="grid gap-5 sm:gap-6 lg:grid-cols-3">
+          {directions.items.map((item, index) => {
+            const Icon = directionIcons[item.id] ?? Mic2;
             return (
               <motion.div
-                key={card.title}
+                key={item.id}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-48px" }}
@@ -54,38 +54,31 @@ export function AudienceSection() {
                     <span className="inline-flex size-10 items-center justify-center rounded-xl bg-primary/10 text-primary transition-colors group-hover:bg-primary/15 sm:size-11">
                       <Icon className="size-[1.125rem] sm:size-5" aria-hidden />
                     </span>
-                    <CardTitle className="font-heading text-lg leading-snug">
-                      {card.title}
+                    <CardTitle className="font-heading text-lg leading-snug sm:text-xl">
+                      {item.title}
                     </CardTitle>
                   </CardHeader>
-                  <CardContent className="pb-6 pt-0">
-                    <p className="text-sm leading-relaxed text-muted-foreground">
-                      {card.description}
-                    </p>
+                  <CardContent className="space-y-3 pb-6 text-sm leading-relaxed text-muted-foreground sm:pb-7 sm:text-[0.9375rem]">
+                    <p>{item.intro}</p>
+                    <p className="text-foreground/90">{item.listIntro}</p>
+                    <ul className="space-y-2">
+                      {item.bullets.map((bullet) => (
+                        <li key={bullet} className="flex gap-2.5">
+                          <span
+                            className="mt-2 size-1.5 shrink-0 rounded-full bg-primary"
+                            aria-hidden
+                          />
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                    {item.outro ? <p>{item.outro}</p> : null}
                   </CardContent>
                 </Card>
               </motion.div>
             );
           })}
         </div>
-
-        <p className="mt-8 text-center text-sm text-muted-foreground sm:mt-10">
-          Узнали себя?{" "}
-          <AnchorLink
-            href="/#kak-eto-rabotaet"
-            className="font-semibold text-primary underline-offset-4 hover:underline"
-          >
-            Смотрите, как участвовать
-          </AnchorLink>{" "}
-          или{" "}
-          <AnchorLink
-            href="/#kontakty"
-            className="font-semibold text-primary underline-offset-4 hover:underline"
-          >
-            напишите нам
-          </AnchorLink>
-          .
-        </p>
       </div>
     </section>
   );
