@@ -11,8 +11,10 @@ export const siteConfig = {
   heroTags: landingContent.hero.tags,
   mission: landingContent.mission.text,
   about: landingContent.about.paragraphs.join(" "),
-  email: "hello@otkrytaya-scena.org",
-  phone: "+7 (495) 000-00-00",
+  email:
+    process.env.NEXT_PUBLIC_CONTACT_EMAIL ??
+    "anonymous833420@gmail.com",
+  phone: "+7 (985) 723-23-49",
   address: "Москва, набережная примерная, 1",
   social: {
     telegram: "https://t.me/otkrytaya_scena",

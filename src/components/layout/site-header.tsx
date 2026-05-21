@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState, type MouseEvent } from "react";
 
-import { Logo } from "@/components/layout/logo";
+import { Logo, SiteTitleLink } from "@/components/layout/logo";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
 import { useActiveNav } from "@/hooks/use-active-nav";
 import { cn } from "@/lib/utils";
@@ -129,25 +129,27 @@ export function SiteHeader() {
         open && "max-md:backdrop-blur-none max-md:supports-[backdrop-filter]:bg-background",
       )}
     >
-      {/* Верхняя строка: логотип по центру */}
-      <div className="relative mx-auto flex h-[4.25rem] max-w-6xl items-center justify-center px-4 sm:h-[4.5rem] sm:px-6 lg:px-8">
-        <Logo
-          className="px-12 sm:px-14"
-          onHomeClick={handleHomeNavClick}
-        />
+      {/* Мобильная шапка: логотип — название — бургер */}
+      <div className="mx-auto grid h-[4.25rem] max-w-6xl grid-cols-[auto_1fr_auto] items-center gap-2 px-4 md:hidden">
+        <Logo iconOnly onHomeClick={handleHomeNavClick} />
+        <SiteTitleLink onHomeClick={handleHomeNavClick} />
+        <button
+          type="button"
+          className="inline-flex size-10 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-background text-foreground shadow-sm transition-colors hover:bg-muted"
+          aria-expanded={open}
+          aria-controls="mobile-menu"
+          aria-label={open ? "Закрыть меню" : "Открыть меню"}
+          onClick={() => setOpen((v) => !v)}
+        >
+          {open ? <X className="size-5" /> : <Menu className="size-5" />}
+        </button>
+      </div>
 
-        <div className="absolute right-4 top-1/2 z-10 flex -translate-y-1/2 items-center gap-2 sm:right-6 lg:right-8">
+      {/* Десктоп: логотип по центру, тема справа */}
+      <div className="relative mx-auto hidden h-[4.5rem] max-w-6xl items-center justify-center px-6 md:flex lg:px-8">
+        <Logo className="px-14" onHomeClick={handleHomeNavClick} />
+        <div className="absolute right-6 top-1/2 z-10 -translate-y-1/2 lg:right-8">
           <ThemeToggle />
-          <button
-            type="button"
-            className="inline-flex size-10 items-center justify-center rounded-lg border border-border/80 bg-background text-foreground shadow-sm transition-colors hover:bg-muted md:hidden"
-            aria-expanded={open}
-            aria-controls="mobile-menu"
-            aria-label={open ? "Закрыть меню" : "Открыть меню"}
-            onClick={() => setOpen((v) => !v)}
-          >
-            {open ? <X className="size-5" /> : <Menu className="size-5" />}
-          </button>
         </div>
       </div>
 
@@ -206,6 +208,12 @@ export function SiteHeader() {
             className="fixed inset-x-0 top-[4.25rem] z-[61] max-h-[calc(100dvh-4.25rem)] overflow-y-auto overscroll-contain border-t border-border/60 bg-background shadow-2xl touch-manipulation sm:top-[4.5rem] sm:max-h-[calc(100dvh-4.5rem)] md:hidden"
             aria-label="Мобильная навигация"
           >
+            <div className="flex items-center justify-between gap-3 border-b border-border/60 px-4 py-3">
+              <span className="text-sm font-medium text-muted-foreground">
+                Тема оформления
+              </span>
+              <ThemeToggle />
+            </div>
             <ul className="flex flex-col gap-0.5 px-3 py-3">
               {nav.map((item) => (
                 <li key={item.href}>
