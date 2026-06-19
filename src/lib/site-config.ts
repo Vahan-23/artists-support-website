@@ -13,7 +13,7 @@ export const siteConfig = {
   about: landingContent.about.paragraphs.join(" "),
   email:
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ??
-    "anonymous833420@gmail.com",
+    "info@opnstage.ru",
   phone: "+7 (985) 723-23-49",
   address: "Москва, набережная примерная, 1",
   social: {
