@@ -9,7 +9,6 @@ import {
 } from "react-hook-form";
 import { toast } from "sonner";
 import { Loader2Icon } from "lucide-react";
-import { useRef } from "react";
 
 import { buttonVariants } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -32,7 +31,6 @@ function getFirstErrorMessage(
 }
 
 export function ContactForm() {
-  const honeypotRef = useRef<HTMLInputElement>(null);
   const {
     register,
     handleSubmit,
@@ -52,12 +50,6 @@ export function ContactForm() {
   });
 
   const onSubmit: SubmitHandler<ContactFormValues> = async (values) => {
-    if (honeypotRef.current?.value?.trim()) {
-      toast.success("Сообщение отправлено");
-      reset();
-      return;
-    }
-
     try {
       const response = await fetch("/api/contact", {
         method: "POST",
@@ -65,12 +57,13 @@ export function ContactForm() {
         body: JSON.stringify(values),
       });
 
-      const data = (await response.json().catch(() => ({}))) as {
+      const data = (await response.json().catch(() => null)) as {
+        ok?: boolean;
         error?: string;
-      };
+      } | null;
 
-      if (!response.ok) {
-        toast.error(data.error ?? "Не удалось отправить сообщение");
+      if (!response.ok || !data?.ok) {
+        toast.error(data?.error ?? "Не удалось отправить сообщение");
         return;
       }
 
@@ -79,8 +72,8 @@ export function ContactForm() {
           "Спасибо, мы получили ваше обращение и скоро свяжемся с вами.",
       });
       reset();
-      if (honeypotRef.current) honeypotRef.current.value = "";
-    } catch {
+    } catch (error) {
+      console.error("[contact-form] submit failed:", error);
       toast.error("Ошибка сети", {
         description: "Проверьте подключение к интернету и попробуйте снова.",
       });
@@ -97,19 +90,9 @@ export function ContactForm() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit, onInvalid)}
-      className="relative space-y-5 rounded-2xl border border-border/70 bg-card p-5 shadow-sm sm:space-y-6 sm:p-8"
+      className="space-y-5 rounded-2xl border border-border/70 bg-card p-5 shadow-sm sm:space-y-6 sm:p-8"
       noValidate
     >
-      <input
-        ref={honeypotRef}
-        type="text"
-        name="company_address"
-        tabIndex={-1}
-        autoComplete="nope"
-        className="pointer-events-none absolute -left-[9999px] h-0 w-0 opacity-0"
-        aria-hidden
-      />
-
       <div className="space-y-2">
         <Label htmlFor="contact-name">Имя</Label>
         <Input
