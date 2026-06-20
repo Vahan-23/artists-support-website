@@ -2,7 +2,7 @@ import { landingContent } from "@/data/landing-content";
 
 export const siteConfig = {
   /** Базовый URL сайта для Open Graph и canonical (задайте в продакшене). */
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://opnstage.ru",
   name: landingContent.legalName,
   shortName: landingContent.shortName,
   tagline: landingContent.tagline,

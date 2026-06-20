@@ -1,4 +1,3 @@
-import type { Metadata } from "next";
 import { ExternalLink, FileText } from "lucide-react";
 
 import { PageIntro } from "@/components/motion/page-intro";
@@ -6,18 +5,14 @@ import {
   getDocumentHref,
   legalDocuments,
 } from "@/data/legal-documents";
-import { siteConfig } from "@/lib/site-config";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Документы",
   description:
     "Политика конфиденциальности и документы по обработке персональных данных АНО «Открытая сцена».",
-  openGraph: {
-    title: `Документы · ${siteConfig.name}`,
-    description:
-      "Официальные документы организации: политика конфиденциальности, положение и форма согласия на обработку персональных данных.",
-  },
-};
+  path: "/dokumenty",
+});
 
 export default function DocumentsPage() {
   return (

@@ -1,19 +1,13 @@
-import type { Metadata } from "next";
-
 import { PageIntro } from "@/components/motion/page-intro";
 import { ParticipantsView } from "@/components/participants/participants-view";
-import { siteConfig } from "@/lib/site-config";
+import { createPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Участники",
   description:
     "Молодые исполнители программы «Открытая сцена» — музыканты, вокалисты и актёры на пути к первой публичной сцене.",
-  openGraph: {
-    title: `Участники · ${siteConfig.name}`,
-    description:
-      "Знакомьтесь с артистами, которые готовят дебютные выступления при поддержке организации.",
-  },
-};
+  path: "/uchastniki",
+});
 
 export default function ParticipantsPage() {
   return (

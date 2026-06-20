@@ -1,21 +1,16 @@
-import type { Metadata } from "next";
-
 import { ExpertCard } from "@/components/experts/expert-card";
 import { PageIntro } from "@/components/motion/page-intro";
 import { experts } from "@/data/experts";
 import { landingContent } from "@/data/landing-content";
-import { siteConfig } from "@/lib/site-config";
+import { createPageMetadata } from "@/lib/seo";
 
 const { expertCouncil } = landingContent;
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: "Экспертный совет",
-  description: expertCouncil.intro,
-  openGraph: {
-    title: `Экспертный совет · ${siteConfig.name}`,
-    description: expertCouncil.intro,
-  },
-};
+  description: `${expertCouncil.intro} ${expertCouncil.listIntro}`,
+  path: "/ekspertnyy-sovet",
+});
 
 export default function ExpertCouncilPage() {
   return (
