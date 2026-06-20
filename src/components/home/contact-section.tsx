@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 import { ContactForm } from "@/components/home/contact-form";
+import { AddressRouteButton } from "@/components/home/address-route-button";
 import { landingContent } from "@/data/landing-content";
 import { siteConfig } from "@/lib/site-config";
 
@@ -88,6 +89,7 @@ export function ContactSection() {
                   <p className="mt-0.5 text-sm font-medium text-foreground sm:text-base">
                     {siteConfig.address}
                   </p>
+                  <AddressRouteButton address={siteConfig.address} />
                 </div>
               </li>
             </ul>

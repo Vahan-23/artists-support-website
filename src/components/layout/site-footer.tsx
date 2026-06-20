@@ -12,6 +12,7 @@ const footerNav = [
   { href: "/#uchrediteli", label: "Учредители" },
   { href: "/ekspertnyy-sovet", label: "Экспертный совет" },
   { href: "/uchastniki", label: "Участники" },
+  { href: "/dokumenty", label: "Документы" },
   { href: "/#kontakty", label: "Контакты" },
 ] as const;
 

@@ -19,6 +19,7 @@ import {
   contactFormSchema,
   type ContactFormValues,
 } from "@/lib/contact-schema";
+import { privacyPolicyHref } from "@/data/legal-documents";
 import { cn } from "@/lib/utils";
 
 function getFirstErrorMessage(
@@ -164,8 +165,17 @@ export function ContactForm() {
               htmlFor="contact-consent"
               className="cursor-pointer text-sm font-normal leading-snug text-muted-foreground"
             >
-              Я согласен(на) на обработку персональных данных в соответствии с
-              политикой конфиденциальности организации.
+              Я согласен(на) на обработку персональных данных в соответствии с{" "}
+              <a
+                href={privacyPolicyHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium text-foreground underline underline-offset-4 hover:text-primary"
+                onClick={(event) => event.stopPropagation()}
+              >
+                политикой конфиденциальности
+              </a>{" "}
+              организации.
             </Label>
           </div>
         )}

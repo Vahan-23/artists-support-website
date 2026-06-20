@@ -15,7 +15,7 @@ export const siteConfig = {
     process.env.NEXT_PUBLIC_CONTACT_EMAIL ??
     "info@opnstage.ru",
   phone: "+7 (985) 723-23-49",
-  address: "Москва, набережная примерная, 1",
+  address: "129085 г. Москва, пр-д Ольминского, д. 7, оф.312",
   social: {
     telegram: "https://t.me/otkrytaya_scena",
     vk: "https://vk.com/otkrytaya_scena",
