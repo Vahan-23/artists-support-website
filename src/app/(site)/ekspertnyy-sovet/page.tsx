@@ -1,18 +1,22 @@
 import { ExpertCard } from "@/components/experts/expert-card";
 import { PageIntro } from "@/components/motion/page-intro";
-import { experts } from "@/data/experts";
 import { landingContent } from "@/data/landing-content";
+import { getExperts } from "@/lib/cms/storage";
 import { createPageMetadata } from "@/lib/seo";
 
 const { expertCouncil } = landingContent;
 
+export const dynamic = "force-dynamic";
+
 export const metadata = createPageMetadata({
   title: "Экспертный совет",
-  description: `${expertCouncil.intro} ${expertCouncil.listIntro}`,
+  description: expertCouncil.intro,
   path: "/ekspertnyy-sovet",
 });
 
 export default function ExpertCouncilPage() {
+  const experts = getExperts();
+
   return (
     <div className="border-b border-border/40">
       <div className="section-shell section-y">

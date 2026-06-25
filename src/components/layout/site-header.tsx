@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { LogIn, Menu, X } from "lucide-react";
 import { useEffect, useState, type MouseEvent } from "react";
 
 import { Logo, SiteTitleLink } from "@/components/layout/logo";
@@ -148,7 +148,19 @@ export function SiteHeader() {
       {/* Десктоп: логотип по центру, тема справа */}
       <div className="relative mx-auto hidden h-[4.5rem] max-w-6xl items-center justify-center px-6 md:flex lg:px-8">
         <Logo className="px-14" onHomeClick={handleHomeNavClick} />
-        <div className="absolute right-6 top-1/2 z-10 -translate-y-1/2 lg:right-8">
+        <div className="absolute right-6 top-1/2 z-10 flex -translate-y-1/2 items-center gap-2 lg:right-8">
+          <Link
+            href="/admin"
+            className={cn(
+              "inline-flex items-center gap-1.5 rounded-lg px-2.5 py-1.5 text-sm font-medium transition-colors",
+              pathname.startsWith("/admin")
+                ? "bg-primary/12 text-primary ring-1 ring-primary/15"
+                : "text-muted-foreground hover:bg-muted/80 hover:text-foreground",
+            )}
+          >
+            <LogIn className="size-4" aria-hidden />
+            <span className="hidden lg:inline">Админ</span>
+          </Link>
           <ThemeToggle />
         </div>
       </div>
@@ -229,6 +241,21 @@ export function SiteHeader() {
                   />
                 </li>
               ))}
+              <li className="mt-2 border-t border-border/60 pt-2">
+                <Link
+                  href="/admin"
+                  onClick={closeMenu}
+                  className={cn(
+                    "flex w-full items-center gap-2 rounded-md px-3 py-3 text-base font-medium transition-colors",
+                    pathname.startsWith("/admin")
+                      ? "bg-primary/12 font-semibold text-primary"
+                      : "text-muted-foreground hover:bg-muted/80 hover:text-foreground",
+                  )}
+                >
+                  <LogIn className="size-4" aria-hidden />
+                  Вход в админку
+                </Link>
+              </li>
             </ul>
           </motion.nav>
         </>

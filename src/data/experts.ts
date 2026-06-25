@@ -1,49 +1,14 @@
-export type ExpertTimelineItem = {
-  period: string;
-  text: string;
-};
+export type {
+  Expert,
+  ExpertBio,
+  ExpertBioSection,
+  ExpertHighlight,
+  ExpertTimelineItem,
+} from "@/types/cms";
 
-export type ExpertHighlight = {
-  year?: string;
-  text: string;
-};
+export { DEFAULT_EXPERT_BIO_SECTION_ORDER } from "@/types/cms";
 
-export type ExpertBioSection =
-  | "lead"
-  | "timeline"
-  | "paragraphs"
-  | "highlights"
-  | "tags";
-
-export const DEFAULT_EXPERT_BIO_SECTION_ORDER: ExpertBioSection[] = [
-  "lead",
-  "timeline",
-  "paragraphs",
-  "highlights",
-  "tags",
-];
-
-export type ExpertBio = {
-  lead?: string;
-  timeline?: ExpertTimelineItem[];
-  timelineLabel?: string;
-  paragraphs?: string[];
-  highlights?: ExpertHighlight[];
-  highlightsLabel?: string;
-  /** Короткие метки — ученики, награды и т. п. */
-  tags?: string[];
-  tagsLabel?: string;
-  /** Порядок блоков; по умолчанию — как в исходном макете */
-  sectionOrder?: ExpertBioSection[];
-};
-
-export type Expert = {
-  id: string;
-  name: string;
-  role: string;
-  bio: ExpertBio;
-  imageSrc: string;
-};
+import type { Expert } from "@/types/cms";
 
 export const experts: Expert[] = [
   {

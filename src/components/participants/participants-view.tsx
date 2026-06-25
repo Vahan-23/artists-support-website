@@ -7,20 +7,24 @@ import { useMemo, useState } from "react";
 import { ParticipantCard } from "@/components/participants/participant-card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { participants } from "@/data/participants";
+import type { Participant } from "@/types/cms";
 
 function normalize(s: string) {
   return s.trim().toLowerCase();
 }
 
-export function ParticipantsView() {
+export function ParticipantsView({
+  participants,
+}: {
+  participants: Participant[];
+}) {
   const [query, setQuery] = useState("");
 
   const filtered = useMemo(() => {
     const q = normalize(query);
     if (!q) return participants;
     return participants.filter((p) => normalize(p.name).includes(q));
-  }, [query]);
+  }, [query, participants]);
 
   return (
     <div className="space-y-8 sm:space-y-10">

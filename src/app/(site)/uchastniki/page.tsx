@@ -1,6 +1,9 @@
 import { PageIntro } from "@/components/motion/page-intro";
 import { ParticipantsView } from "@/components/participants/participants-view";
+import { getParticipants } from "@/lib/cms/storage";
 import { createPageMetadata } from "@/lib/seo";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = createPageMetadata({
   title: "Участники",
@@ -10,6 +13,8 @@ export const metadata = createPageMetadata({
 });
 
 export default function ParticipantsPage() {
+  const participants = getParticipants();
+
   return (
     <div className="border-b border-border/40 bg-muted/15">
       <div className="section-shell section-y">
@@ -20,7 +25,7 @@ export default function ParticipantsPage() {
         />
 
         <div className="mt-10 sm:mt-12">
-          <ParticipantsView />
+          <ParticipantsView participants={participants} />
         </div>
       </div>
     </div>

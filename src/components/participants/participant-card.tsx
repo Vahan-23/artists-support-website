@@ -10,7 +10,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import type { Participant } from "@/data/participants";
+import type { Participant } from "@/types/cms";
 
 type ParticipantCardProps = {
   participant: Participant;
