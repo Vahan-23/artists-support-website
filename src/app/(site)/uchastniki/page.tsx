@@ -12,8 +12,8 @@ export const metadata = createPageMetadata({
   path: "/uchastniki",
 });
 
-export default function ParticipantsPage() {
-  const participants = getParticipants();
+export default async function ParticipantsPage() {
+  const participants = await getParticipants();
 
   return (
     <div className="border-b border-border/40 bg-muted/15">

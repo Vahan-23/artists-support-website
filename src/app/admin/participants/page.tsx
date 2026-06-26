@@ -6,8 +6,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { getParticipants } from "@/lib/cms/storage";
 import { cn } from "@/lib/utils";
 
-export default function AdminParticipantsPage() {
-  const items = getParticipants();
+export default async function AdminParticipantsPage() {
+  const items = await getParticipants();
 
   return (
     <AdminShell title="Участники">

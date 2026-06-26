@@ -10,7 +10,7 @@ import {
 export async function GET() {
   const denied = await requireAdminApi();
   if (denied) return denied;
-  return Response.json({ items: getExperts() });
+  return Response.json({ items: await getExperts() });
 }
 
 export async function POST(request: Request) {
@@ -32,7 +32,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const items = getExperts();
+  const items = await getExperts();
   const baseId = parsed.data.id ?? slugifyId(parsed.data.name);
   const id = uniqueId(
     baseId,
@@ -41,7 +41,7 @@ export async function POST(request: Request) {
 
   const expert = { ...parsed.data, id };
   items.push(expert);
-  saveExperts(items);
+  await saveExperts(items);
 
   return Response.json({ item: expert }, { status: 201 });
 }

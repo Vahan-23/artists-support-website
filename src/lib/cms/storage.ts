@@ -5,9 +5,13 @@ import { participants as seedParticipants } from "@/data/participants-data";
 import { experts as seedExperts } from "@/data/experts";
 import type { Expert, Participant } from "@/types/cms";
 
+import { isBlobStorageEnabled, readJsonBlob, writeJsonBlob } from "./blob";
+
 const CMS_DIR = path.join(process.cwd(), "data", "cms");
 const PARTICIPANTS_FILE = path.join(CMS_DIR, "participants.json");
 const EXPERTS_FILE = path.join(CMS_DIR, "experts.json");
+const PARTICIPANTS_BLOB = "cms/participants.json";
+const EXPERTS_BLOB = "cms/experts.json";
 
 function ensureCmsDir() {
   if (!existsSync(CMS_DIR)) {
@@ -15,7 +19,7 @@ function ensureCmsDir() {
   }
 }
 
-function readJsonFile<T>(filePath: string, seed: T): T {
+function readLocalJsonFile<T>(filePath: string, seed: T): T {
   ensureCmsDir();
   if (!existsSync(filePath)) {
     writeFileSync(filePath, JSON.stringify(seed, null, 2), "utf8");
@@ -25,25 +29,63 @@ function readJsonFile<T>(filePath: string, seed: T): T {
   return JSON.parse(raw) as T;
 }
 
-function writeJsonFile<T>(filePath: string, data: T) {
+function writeLocalJsonFile<T>(filePath: string, data: T) {
   ensureCmsDir();
   writeFileSync(filePath, JSON.stringify(data, null, 2), "utf8");
 }
 
-export function getParticipants(): Participant[] {
-  return readJsonFile(PARTICIPANTS_FILE, seedParticipants);
+async function readCmsJson<T>(
+  blobPathname: string,
+  localFilePath: string,
+  seed: T,
+): Promise<T> {
+  if (isBlobStorageEnabled()) {
+    const fromBlob = await readJsonBlob<T>(blobPathname);
+    if (fromBlob) {
+      return fromBlob;
+    }
+
+    if (existsSync(localFilePath)) {
+      const raw = readFileSync(localFilePath, "utf8");
+      const fromFile = JSON.parse(raw) as T;
+      await writeJsonBlob(blobPathname, fromFile);
+      return fromFile;
+    }
+
+    await writeJsonBlob(blobPathname, seed);
+    return seed;
+  }
+
+  return readLocalJsonFile(localFilePath, seed);
 }
 
-export function saveParticipants(participants: Participant[]) {
-  writeJsonFile(PARTICIPANTS_FILE, participants);
+async function writeCmsJson<T>(
+  blobPathname: string,
+  localFilePath: string,
+  data: T,
+): Promise<void> {
+  if (isBlobStorageEnabled()) {
+    await writeJsonBlob(blobPathname, data);
+    return;
+  }
+
+  writeLocalJsonFile(localFilePath, data);
 }
 
-export function getExperts(): Expert[] {
-  return readJsonFile(EXPERTS_FILE, seedExperts);
+export async function getParticipants(): Promise<Participant[]> {
+  return readCmsJson(PARTICIPANTS_BLOB, PARTICIPANTS_FILE, seedParticipants);
 }
 
-export function saveExperts(experts: Expert[]) {
-  writeJsonFile(EXPERTS_FILE, experts);
+export async function saveParticipants(participants: Participant[]): Promise<void> {
+  await writeCmsJson(PARTICIPANTS_BLOB, PARTICIPANTS_FILE, participants);
+}
+
+export async function getExperts(): Promise<Expert[]> {
+  return readCmsJson(EXPERTS_BLOB, EXPERTS_FILE, seedExperts);
+}
+
+export async function saveExperts(experts: Expert[]): Promise<void> {
+  await writeCmsJson(EXPERTS_BLOB, EXPERTS_FILE, experts);
 }
 
 export function slugifyId(name: string): string {

@@ -1,5 +1,8 @@
+import { put } from "@vercel/blob";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import path from "path";
+
+import { isBlobStorageEnabled } from "./blob";
 
 const UPLOADS_ROOT = path.join(process.cwd(), "public", "uploads");
 
@@ -21,15 +24,25 @@ export async function saveUploadedImage(
     throw new Error("Файл не больше 5 МБ");
   }
 
+  const ext = ALLOWED_TYPES.get(file.type)!;
+  const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
+  const buffer = Buffer.from(await file.arrayBuffer());
+
+  if (isBlobStorageEnabled()) {
+    const pathname = `uploads/${folder}/${filename}`;
+    const blob = await put(pathname, buffer, {
+      access: "public",
+      addRandomSuffix: false,
+      contentType: file.type,
+    });
+    return blob.url;
+  }
+
   const dir = path.join(UPLOADS_ROOT, folder);
   if (!existsSync(dir)) {
     mkdirSync(dir, { recursive: true });
   }
 
-  const ext = ALLOWED_TYPES.get(file.type)!;
-  const filename = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}${ext}`;
-  const buffer = Buffer.from(await file.arrayBuffer());
   writeFileSync(path.join(dir, filename), buffer);
-
   return `/uploads/${folder}/${filename}`;
 }

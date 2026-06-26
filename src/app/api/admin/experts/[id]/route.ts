@@ -9,7 +9,7 @@ export async function GET(_request: Request, context: RouteContext) {
   if (denied) return denied;
 
   const { id } = await context.params;
-  const item = getExperts().find((e) => e.id === id);
+  const item = (await getExperts()).find((e) => e.id === id);
   if (!item) {
     return Response.json({ error: "Эксперт не найден" }, { status: 404 });
   }
@@ -36,14 +36,14 @@ export async function PUT(request: Request, context: RouteContext) {
     );
   }
 
-  const items = getExperts();
+  const items = await getExperts();
   const index = items.findIndex((e) => e.id === id);
   if (index === -1) {
     return Response.json({ error: "Эксперт не найден" }, { status: 404 });
   }
 
   items[index] = { ...parsed.data, id };
-  saveExperts(items);
+  await saveExperts(items);
   return Response.json({ item: items[index] });
 }
 
@@ -52,12 +52,12 @@ export async function DELETE(_request: Request, context: RouteContext) {
   if (denied) return denied;
 
   const { id } = await context.params;
-  const items = getExperts();
+  const items = await getExperts();
   const next = items.filter((e) => e.id !== id);
   if (next.length === items.length) {
     return Response.json({ error: "Эксперт не найден" }, { status: 404 });
   }
 
-  saveExperts(next);
+  await saveExperts(next);
   return Response.json({ ok: true });
 }

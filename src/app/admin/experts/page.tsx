@@ -6,8 +6,8 @@ import { buttonVariants } from "@/components/ui/button";
 import { getExperts } from "@/lib/cms/storage";
 import { cn } from "@/lib/utils";
 
-export default function AdminExpertsPage() {
-  const items = getExperts();
+export default async function AdminExpertsPage() {
+  const items = await getExperts();
 
   return (
     <AdminShell title="Эксперты">

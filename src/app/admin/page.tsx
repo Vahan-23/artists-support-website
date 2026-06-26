@@ -5,9 +5,9 @@ import { buttonVariants } from "@/components/ui/button";
 import { getExperts, getParticipants } from "@/lib/cms/storage";
 import { cn } from "@/lib/utils";
 
-export default function AdminDashboardPage() {
-  const participants = getParticipants();
-  const experts = getExperts();
+export default async function AdminDashboardPage() {
+  const participants = await getParticipants();
+  const experts = await getExperts();
 
   return (
     <AdminShell title="Обзор">

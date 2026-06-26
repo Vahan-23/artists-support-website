@@ -14,8 +14,8 @@ export const metadata = createPageMetadata({
   path: "/ekspertnyy-sovet",
 });
 
-export default function ExpertCouncilPage() {
-  const experts = getExperts();
+export default async function ExpertCouncilPage() {
+  const experts = await getExperts();
 
   return (
     <div className="border-b border-border/40">

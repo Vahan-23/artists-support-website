@@ -9,7 +9,7 @@ type PageProps = { params: Promise<{ id: string }> };
 
 export default async function EditExpertPage({ params }: PageProps) {
   const { id } = await params;
-  const item = getExperts().find((e) => e.id === id);
+  const item = (await getExperts()).find((e) => e.id === id);
   if (!item) notFound();
 
   return (

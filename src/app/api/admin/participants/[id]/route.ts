@@ -9,7 +9,7 @@ export async function GET(_request: Request, context: RouteContext) {
   if (denied) return denied;
 
   const { id } = await context.params;
-  const item = getParticipants().find((p) => p.id === id);
+  const item = (await getParticipants()).find((p) => p.id === id);
   if (!item) {
     return Response.json({ error: "Участник не найден" }, { status: 404 });
   }
@@ -36,14 +36,14 @@ export async function PUT(request: Request, context: RouteContext) {
     );
   }
 
-  const items = getParticipants();
+  const items = await getParticipants();
   const index = items.findIndex((p) => p.id === id);
   if (index === -1) {
     return Response.json({ error: "Участник не найден" }, { status: 404 });
   }
 
   items[index] = { ...parsed.data, id };
-  saveParticipants(items);
+  await saveParticipants(items);
   return Response.json({ item: items[index] });
 }
 
@@ -52,12 +52,12 @@ export async function DELETE(_request: Request, context: RouteContext) {
   if (denied) return denied;
 
   const { id } = await context.params;
-  const items = getParticipants();
+  const items = await getParticipants();
   const next = items.filter((p) => p.id !== id);
   if (next.length === items.length) {
     return Response.json({ error: "Участник не найден" }, { status: 404 });
   }
 
-  saveParticipants(next);
+  await saveParticipants(next);
   return Response.json({ ok: true });
 }
