@@ -15,6 +15,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import type { Expert, ExpertBio, ExpertHighlight, ExpertTimelineItem } from "@/types/cms";
+import { encodeRouteId } from "@/lib/cms/ids";
 import { cn } from "@/lib/utils";
 
 const FORM_ID = "expert-form";
@@ -83,7 +84,9 @@ export function ExpertForm({ initial, headerActions }: ExpertFormProps) {
     };
 
     const body = { name, role, imageSrc, bio };
-    const url = isEdit ? `/api/admin/experts/${initial!.id}` : "/api/admin/experts";
+    const url = isEdit
+      ? `/api/admin/experts/${encodeRouteId(initial!.id)}`
+      : "/api/admin/experts";
     const method = isEdit ? "PUT" : "POST";
 
     try {

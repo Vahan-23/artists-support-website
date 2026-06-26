@@ -3,6 +3,7 @@ import { ChevronRightIcon, PlusIcon } from "lucide-react";
 
 import { AdminShell, AdminThumb } from "@/components/admin/admin-shell";
 import { buttonVariants } from "@/components/ui/button";
+import { encodeRouteId } from "@/lib/cms/ids";
 import { getExperts } from "@/lib/cms/storage";
 import { cn } from "@/lib/utils";
 
@@ -37,7 +38,7 @@ export default async function AdminExpertsPage() {
             {items.map((item) => (
               <li key={item.id}>
                 <Link
-                  href={`/admin/experts/${item.id}/edit`}
+                  href={`/admin/experts/${encodeRouteId(item.id)}/edit`}
                   className="flex items-center gap-3 px-4 py-4 transition-colors hover:bg-muted/40"
                 >
                   <AdminThumb src={item.imageSrc} alt={item.name} />

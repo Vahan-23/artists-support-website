@@ -1,14 +1,20 @@
 import { requireAdminApi } from "@/lib/auth/api-guard";
+import { decodeRouteId } from "@/lib/cms/ids";
 import { expertInputSchema } from "@/lib/cms/schemas";
 import { getExperts, saveExperts } from "@/lib/cms/storage";
 
 type RouteContext = { params: Promise<{ id: string }> };
 
+async function resolveId(context: RouteContext) {
+  const { id } = await context.params;
+  return decodeRouteId(id);
+}
+
 export async function GET(_request: Request, context: RouteContext) {
   const denied = await requireAdminApi();
   if (denied) return denied;
 
-  const { id } = await context.params;
+  const id = await resolveId(context);
   const item = (await getExperts()).find((e) => e.id === id);
   if (!item) {
     return Response.json({ error: "Эксперт не найден" }, { status: 404 });
@@ -20,7 +26,7 @@ export async function PUT(request: Request, context: RouteContext) {
   const denied = await requireAdminApi();
   if (denied) return denied;
 
-  const { id } = await context.params;
+  const id = await resolveId(context);
   let json: unknown;
   try {
     json = await request.json();
@@ -51,7 +57,7 @@ export async function DELETE(_request: Request, context: RouteContext) {
   const denied = await requireAdminApi();
   if (denied) return denied;
 
-  const { id } = await context.params;
+  const id = await resolveId(context);
   const items = await getExperts();
   const next = items.filter((e) => e.id !== id);
   if (next.length === items.length) {

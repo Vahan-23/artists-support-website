@@ -12,6 +12,7 @@ import { ImageUploadField } from "@/components/admin/image-upload-field";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
+import { encodeRouteId } from "@/lib/cms/ids";
 import type { Participant } from "@/types/cms";
 
 const FORM_ID = "participant-form";
@@ -38,7 +39,7 @@ export function ParticipantForm({ initial, headerActions }: ParticipantFormProps
 
     const body = { name, bio, imageSrc };
     const url = isEdit
-      ? `/api/admin/participants/${initial!.id}`
+      ? `/api/admin/participants/${encodeRouteId(initial!.id)}`
       : "/api/admin/participants";
     const method = isEdit ? "PUT" : "POST";
 

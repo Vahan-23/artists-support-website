@@ -7,11 +7,17 @@ import type { Expert, Participant } from "@/types/cms";
 
 import { isBlobStorageEnabled, readJsonBlob, writeJsonBlob } from "./blob";
 
+export { slugifyId, uniqueId, encodeRouteId, decodeRouteId } from "./ids";
+
 const CMS_DIR = path.join(process.cwd(), "data", "cms");
 const PARTICIPANTS_FILE = path.join(CMS_DIR, "participants.json");
 const EXPERTS_FILE = path.join(CMS_DIR, "experts.json");
 const PARTICIPANTS_BLOB = "cms/participants.json";
 const EXPERTS_BLOB = "cms/experts.json";
+
+function isVercelRuntime(): boolean {
+  return process.env.VERCEL === "1";
+}
 
 function ensureCmsDir() {
   if (!existsSync(CMS_DIR)) {
@@ -41,19 +47,18 @@ async function readCmsJson<T>(
 ): Promise<T> {
   if (isBlobStorageEnabled()) {
     const fromBlob = await readJsonBlob<T>(blobPathname);
-    if (fromBlob) {
+    if (fromBlob !== null) {
       return fromBlob;
     }
 
-    if (existsSync(localFilePath)) {
+    let initial = seed;
+    if (!isVercelRuntime() && existsSync(localFilePath)) {
       const raw = readFileSync(localFilePath, "utf8");
-      const fromFile = JSON.parse(raw) as T;
-      await writeJsonBlob(blobPathname, fromFile);
-      return fromFile;
+      initial = JSON.parse(raw) as T;
     }
 
-    await writeJsonBlob(blobPathname, seed);
-    return seed;
+    await writeJsonBlob(blobPathname, initial);
+    return initial;
   }
 
   return readLocalJsonFile(localFilePath, seed);
@@ -66,6 +71,9 @@ async function writeCmsJson<T>(
 ): Promise<void> {
   if (isBlobStorageEnabled()) {
     await writeJsonBlob(blobPathname, data);
+    if (!isVercelRuntime()) {
+      writeLocalJsonFile(localFilePath, data);
+    }
     return;
   }
 
@@ -86,24 +94,4 @@ export async function getExperts(): Promise<Expert[]> {
 
 export async function saveExperts(experts: Expert[]): Promise<void> {
   await writeCmsJson(EXPERTS_BLOB, EXPERTS_FILE, experts);
-}
-
-export function slugifyId(name: string): string {
-  const base = name
-    .toLowerCase()
-    .replace(/[^a-zа-яё0-9\s-]/gi, "")
-    .trim()
-    .replace(/\s+/g, "-")
-    .slice(0, 48);
-  return base || `item-${Date.now()}`;
-}
-
-export function uniqueId(base: string, existingIds: string[]): string {
-  let id = base;
-  let i = 2;
-  while (existingIds.includes(id)) {
-    id = `${base}-${i}`;
-    i += 1;
-  }
-  return id;
 }
