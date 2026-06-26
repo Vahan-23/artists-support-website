@@ -1,8 +1,7 @@
-import { put } from "@vercel/blob";
 import { existsSync, mkdirSync, writeFileSync } from "fs";
 import path from "path";
 
-import { isBlobStorageEnabled } from "./blob";
+import { isBlobStorageEnabled, writeImageBlob } from "./blob";
 
 const UPLOADS_ROOT = path.join(process.cwd(), "public", "uploads");
 
@@ -30,12 +29,7 @@ export async function saveUploadedImage(
 
   if (isBlobStorageEnabled()) {
     const pathname = `uploads/${folder}/${filename}`;
-    const blob = await put(pathname, buffer, {
-      access: "public",
-      addRandomSuffix: false,
-      contentType: file.type,
-    });
-    return blob.url;
+    return writeImageBlob(pathname, buffer, file.type);
   }
 
   const dir = path.join(UPLOADS_ROOT, folder);
